@@ -1,0 +1,150 @@
+<!doctype html><html lang="kk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sin, cos, tg, ctg ойыны</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Rubik:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#fbfaf4;--grid:#cfe0ea;--ink:#1d2b3a;--ink-soft:#55677a;--pencil:#2b5fa8;--card:#fff;--line:#b9c9d6;--ok:#16874a;--on-ok:#fff;--ok-soft:#dcf3e5;--bad:#c62f2f;--on-bad:#fff;--bad-soft:#fbe1e1;--fd:"Rubik","Segoe UI",Arial,sans-serif;--fb:"Nunito","Segoe UI",Arial,sans-serif}
+@media(prefers-color-scheme:dark){:root{--paper:#14202b;--grid:#1f3140;--ink:#e8eef4;--ink-soft:#9db1c3;--pencil:#7fb0f0;--card:#1b2a38;--line:#36506a;--ok:#34c27a;--on-ok:#06210f;--ok-soft:#14382a;--bad:#ff6b6b;--on-bad:#2b0505;--bad-soft:#402021;color-scheme:dark}}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--paper) linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;color:var(--ink);font:17px/1.45 var(--fb);padding:20px max(14px,env(safe-area-inset-right)) 40px max(14px,env(safe-area-inset-left));min-height:100vh}
+main{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:14px}main.wide{max-width:1100px}
+.tag{font:500 12px var(--fd);letter-spacing:.08em;text-transform:uppercase;color:var(--pencil);margin:0}
+h1{font:700 clamp(26px,6vw,36px)/1.1 var(--fd);margin:4px 0 0}h2{font:700 22px var(--fd);margin:0}.sub{margin:6px 0 0;color:var(--ink-soft);font-size:15px}
+.pips{display:flex;gap:6px;align-items:center}.pip{flex:1;height:8px;border-radius:4px;background:var(--line)}.pip.now{background:var(--pencil)}.pip.ok{background:var(--ok)}.pip.bad{background:var(--bad)}
+.count,.top{font:600 14px var(--fd);color:var(--ink-soft)}.top{display:flex;justify-content:space-between;gap:8px;align-items:center}.timer{font:700 22px var(--fd);color:var(--pencil);font-variant-numeric:tabular-nums}.timer.low{color:var(--bad)}
+.card{background:var(--card);border:2px solid var(--ink);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.fig{display:flex;justify-content:center}.fig svg{width:100%;max-width:280px;height:auto}.fig .ln{stroke:var(--ink);stroke-width:2.4;fill:none;stroke-linejoin:round;stroke-linecap:round}.fig .ang{stroke:var(--pencil);stroke-width:2;fill:none}.fig text{fill:var(--ink);font:600 15px var(--fd)}.fig text.g{fill:var(--pencil);font:italic 800 17px var(--fb)}.fig text.s{font:italic 800 17px var(--fb)}
+.q{font:600 clamp(18px,4.6vw,21px)/1.3 var(--fd);margin:0}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:480px){.opts{grid-template-columns:1fr}}
+.opt{font:500 18px var(--fd);color:var(--ink);background:var(--card);border:2px solid var(--ink);border-radius:8px;min-height:56px;padding:10px 14px;display:flex;align-items:center;gap:12px;text-align:left;cursor:pointer;box-shadow:0 3px 0 var(--ink)}
+.opt:hover:not(:disabled){background:var(--paper)}.opt:disabled{cursor:default}.opt .mk{font-weight:700;color:var(--pencil);width:1.2em}
+.opt.ok{background:var(--ok);border-color:var(--ok);color:var(--on-ok)}.opt.bad{background:var(--bad);border-color:var(--bad);color:var(--on-bad)}.opt.ok .mk,.opt.bad .mk{color:inherit}.opt.dim{opacity:.55}
+.fb{border-radius:8px;padding:12px 14px;font-size:16px;display:flex;flex-direction:column;gap:4px}.fb.ok{background:var(--ok-soft);border:2px solid var(--ok)}.fb.bad{background:var(--bad-soft);border:2px solid var(--bad)}.fb .head{font:700 17px var(--fd)}.fb.ok .head{color:var(--ok)}.fb.bad .head{color:var(--bad)}
+.btn{font:600 17px var(--fd);color:#fff;background:var(--pencil);border:2px solid var(--ink);border-radius:8px;padding:12px 20px;cursor:pointer;box-shadow:0 3px 0 var(--ink)}.btn.sec{background:var(--card);color:var(--ink)}.btn.dng{background:var(--bad)}.btn:disabled{opacity:.5}.btn:active{transform:translateY(3px);box-shadow:none}@media(prefers-color-scheme:dark){.btn:not(.sec){color:#0b1620}}
+.btns{display:flex;gap:10px;flex-wrap:wrap}.right{align-self:flex-end}
+input{font:inherit;font-size:18px;padding:12px;border:2px solid var(--ink);border-radius:8px;background:var(--card);color:var(--ink);width:100%}
+.roles{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:480px){.roles{grid-template-columns:1fr}}.role{font:700 24px var(--fd);padding:36px 10px;text-align:center;cursor:pointer;border:2px solid var(--ink);background:var(--card);color:var(--ink);border-radius:10px;box-shadow:0 4px 0 var(--ink)}.role small{display:block;font:400 14px var(--fb);color:var(--ink-soft);margin-top:6px}
+.err{color:var(--bad);font-weight:700;margin:0}.score{font:700 64px/1 var(--fd)}.score small{font-size:28px;color:var(--ink-soft)}.center{text-align:center;align-items:center}
+.rev{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}.rev span{width:30px;height:30px;border-radius:6px;display:grid;place-items:center;font:600 14px var(--fd)}.rev .ok{background:var(--ok);color:var(--on-ok)}.rev .bad{background:var(--bad);color:var(--on-bad)}.rev .na{background:var(--line)}
+i.v{font-style:italic;font-weight:800}.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.15;margin:0 .15em}.fr>span:first-child{border-bottom:2px solid currentColor;padding:0 .3em 1px}.fr>span:last-child{padding:1px .3em 0}
+#net{position:fixed;top:0;left:0;right:0;background:var(--bad);color:var(--on-bad);text-align:center;padding:8px;font-weight:700;z-index:9}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}.stat{background:var(--card);border:2px solid var(--ink);border-radius:8px;padding:10px;text-align:center}.stat b{display:block;font:700 28px var(--fd)}.stat span{font-size:13px;color:var(--ink-soft)}
+table{width:100%;border-collapse:collapse;background:var(--card)}th,td{border:1px solid var(--line);padding:8px;text-align:left}th{cursor:pointer;background:var(--paper);font:600 14px var(--fd)}tr.row{cursor:pointer}tr.row:hover{background:var(--paper)}
+@media(max-width:700px){thead{display:none}table,tbody,tr,td{display:block}tr.row{border:2px solid var(--ink);border-radius:8px;margin-bottom:10px;padding:6px}td{border:0;display:flex;justify-content:space-between}td:before{content:attr(data-l);color:var(--ink-soft)}}
+.cat{display:flex;justify-content:space-between;padding:8px 12px;border-radius:6px;margin:4px 0;background:var(--ok-soft)}.cat.low{background:var(--bad-soft);color:var(--bad);font-weight:700}
+.qi{border-left:5px solid var(--ok);padding:8px 12px;margin:8px 0;background:var(--card)}.qi.bad{border-color:var(--bad)}.pill{padding:2px 8px;border-radius:10px;background:var(--line);font-size:13px}
+</style></head><body>
+<div id="net" hidden>⚠ Интернет байланысы үзілді. Байланыс қалпына келгенде прогресс автоматты түрде жалғасады.</div>
+<main id="app"><p>Жүктелуде…</p></main>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import{getAuth,signInAnonymously,signInWithEmailAndPassword,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import{getDatabase,ref,get,set,update,remove,onValue,serverTimestamp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+/* ===== FIREBASE КОНФИГУРАЦИЯСЫ: Console → Project settings → Web app мәндерін қойыңыз ===== */
+const CFG={apiKey:"AIzaSyD8xMFQ4v2s6jcVfq2R4f9ALacXbcrbPvw",authDomain:"geometry-45cdc.firebaseapp.com",databaseURL:"https://geometry-45cdc-default-rtdb.firebaseio.com",projectId:"geometry-45cdc",appId:"1:1084003707635:web:78b9d1bd5854d12e71a586"};
+const TEACHER_EMAIL="mugalim@sincos-game.app",pw=c=>"SC!"+c+"#teacher";
+const fr=(n,d)=>`<span class="fr"><span>${n}</span><span>${d}</span></span>`,v=s=>`<i class="v">${s}</i>`;
+const FIG=`<svg viewBox="0 0 240 156" role="img" aria-label="Тік бұрышты ABC үшбұрышы"><path class="ln" d="M30 125 L190 125 L190 30 Z"/><path class="ln" d="M180 125 L180 115 L190 115"/><path class="ang" d="M64 125 A34 34 0 0 0 59.2 107.6"/><text x="12" y="141">A</text><text x="196" y="143">C</text><text x="196" y="26">B</text><text class="g" x="70" y="118">α</text><text class="s" x="106" y="146">b</text><text class="s" x="204" y="82">a</text><text class="s" x="96" y="62">c</text></svg>`;
+const CATS={sin:"Sin анықтамасы және синус формуласы",cos:"Cos анықтамасы және косинус формуласы",tg:"Tg анықтамасы және тангенс формуласы",ctg:"Ctg анықтамасы және котангенс формуласы",sides:"Үшбұрыш қабырғалары арқылы тригонометриялық қатынастарды есептеу",apply:"Тригонометриялық формулаларды есептерде қолдану"};
+/* 10 бастапқы сұрақ өзгеріссіз; дұрыс жауап индекстері (ans) клиентте жоқ — Firebase answerKey түйінінде */
+const Q=[
+{c:"sin",q:`α бұрышына қарсы жатқан ${v("a")} катетін гипотенуза ${v("c")} және α арқылы қалай өрнектеуге болады?`,opts:[`${v("a")} = ${v("c")} · sin α`,`${v("a")} = ${v("c")} · cos α`,`${v("a")} = ${v("c")} · tg α`,`${v("a")} = ${v("c")} · ctg α`],why:`sin α = ${fr(v("a"),v("c"))} болғандықтан, ${v("a")} = ${v("c")} · sin α.`},
+{c:"sin",q:`Сүйір бұрыштың синусы (sin α) деп нені айтады?`,opts:[`Қарсы катеттің гипотенузаға қатынасы`,`Іргелес катеттің гипотенузаға қатынасы`,`Қарсы катеттің іргелес катетке қатынасы`,`Іргелес катеттің қарсы катетке қатынасы`],why:`sin α = қарсы катет : гипотенуза = ${fr(v("a"),v("c"))}.`},
+{c:"cos",q:`Сүйір бұрыштың косинусы cos α тік бұрышты үшбұрыштың қабырғалары арқылы қалай жазылады?`,opts:[fr(v("a"),v("c")),fr(v("b"),v("c")),fr(v("a"),v("b")),fr(v("b"),v("a"))],why:`cos α = іргелес катет : гипотенуза = ${fr(v("b"),v("c"))}.`},
+{c:"tg",q:`Сүйір бұрыштың тангенсі tg α неге тең?`,opts:[fr(v("b"),v("a")),fr(v("a"),v("c")),fr(v("a"),v("b")),fr(v("b"),v("c"))],why:`tg α = қарсы катет : іргелес катет = ${fr(v("a"),v("b"))}.`},
+{c:"ctg",q:`ctg α қатынасын қалай өрнектеуге болады?`,opts:[fr("sin α","cos α"),`sin α · cos α`,fr("cos α","sin α"),fr("1","cos α")],why:`ctg α = ${fr("cos α","sin α")} = ${fr(v("b"),v("a"))}, яғни іргелес катеттің қарсы катетке қатынасы.`},
+{c:"ctg",q:`Іргелес жатқан ${v("b")} катетін қарсы жатқан ${v("a")} катеті және α бұрышы арқылы өрнектеңдер.`,opts:[`${v("b")} = ${v("a")} · tg α`,`${v("b")} = ${v("a")} · sin α`,`${v("b")} = ${v("a")} · ctg α`,`${v("b")} = ${v("a")} · cos α`],why:`ctg α = ${fr(v("b"),v("a"))} теңдігінен ${v("b")} = ${v("a")} · ctg α.`},
+{c:"sides",q:`Тік бұрышты үшбұрышта ${v("a")} = 3, ${v("b")} = 4, ${v("c")} = 5. sin α неге тең?`,opts:[fr(4,5),fr(3,4),fr(4,3),fr(3,5)],why:`sin α = ${fr(v("a"),v("c"))} = ${fr(3,5)}.`},
+{c:"sides",q:`Тік бұрышты үшбұрышта ${v("a")} = 5, ${v("b")} = 12, ${v("c")} = 13. cos α неге тең?`,opts:[fr(5,13),fr(12,13),fr(5,12),fr(12,5)],why:`cos α = ${fr(v("b"),v("c"))} = ${fr(12,13)}.`},
+{c:"apply",q:`Гипотенуза ${v("c")} = 20, sin α = 0,6. Қарсы жатқан ${v("a")} катетін табыңдар.`,opts:[`${v("a")} = 14`,`${v("a")} = 16`,`${v("a")} = 26`,`${v("a")} = 12`],why:`${v("a")} = ${v("c")} · sin α = 20 · 0,6 = 12.`},
+{c:"apply",q:`Іргелес жатқан ${v("b")} катеті 8-ге тең, tg α = 0,75. Қарсы жатқан ${v("a")} катетін табыңдар.`,opts:[`${v("a")} = 10,7`,`${v("a")} = 6`,`${v("a")} = 8,75`,`${v("a")} = 7,5`],why:`tg α = ${fr(v("a"),v("b"))} болғандықтан, ${v("a")} = ${v("b")} · tg α = 8 · 0,75 = 6.`}];
+const MARK=["А","Б","В","Г"],$=id=>document.getElementById(id),app=$("app"),esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const strip=h=>h.replace(/<[^>]+>/g,"");
+if(CFG.apiKey.startsWith("PASTE")){app.innerHTML=`<div class="card"><h2>Конфигурация керек</h2><p>index.html ішіндегі <b>CFG</b> объектісіне Firebase apiKey және appId мәндерін қойыңыз (SETUP.md).</p></div>`;throw 0}
+const fb=initializeApp(CFG),auth=getAuth(fb),db=getDatabase(fb);
+let off=0;const now=()=>Date.now()+off;
+onValue(ref(db,".info/serverTimeOffset"),s=>off=s.val()||0);
+onValue(ref(db,".info/connected"),s=>$("net").hidden=!!s.val());
+const unsubs=[];const listen=(p,cb)=>unsubs.push(onValue(ref(db,p),s=>cb(s.val()),e=>fail(e)));
+const clear=()=>{while(unsubs.length)unsubs.pop()()};
+const fail=e=>{console.error(e);app.insertAdjacentHTML("afterbegin",`<p class="err">Қате: ${esc(e.code||e.message)}. Байланысты тексеріңіз.</p>`)};
+const perm=(uid,i)=>{let h=0;for(const ch of uid+"|"+i)h=(h*31+ch.charCodeAt(0))>>>0;const a=[0,1,2,3];for(let k=3;k>0;k--){h=(h*1103515245+12345)>>>0;const j=h%(k+1);[a[k],a[j]]=[a[j],a[k]]}return a};
+let tick=null;const setTick=f=>{clearInterval(tick);tick=f?setInterval(f,250):null};
+/* ---------- Рөл таңдау ---------- */
+function home(){clear();setTick();app.className="";app.innerHTML=`<header><p class="tag">8-сынып · Геометрия · 2-тоқсан · 8.1.3.2</p><h1>Sin, cos, tg, ctg ойыны</h1><p class="sub">Онлайн тест жүйесі. Рөлді таңда.</p></header><div class="roles"><button class="role" id="rT">👩‍🏫 Мұғалім<small>Басқару панелі</small></button><button class="role" id="rS">👨‍🎓 Оқушы<small>Тестке қосылу</small></button></div>`;$("rT").onclick=teacherLogin;$("rS").onclick=student}
+/* ---------- Мұғалім ---------- */
+function teacherLogin(){app.innerHTML=`<div class="card"><h2>Мұғалім кіруі</h2><input id="pw" type="password" inputmode="numeric" placeholder="Құпия код" autocomplete="off"><p class="err" id="e"></p><div class="btns"><button class="btn" id="go">Кіру</button><button class="btn sec" id="bk">Артқа</button></div></div>`;$("bk").onclick=home;
+const go=async()=>{$("e").textContent="";try{await signInWithEmailAndPassword(auth,TEACHER_EMAIL,pw($("pw").value));teacher()}catch(e){$("e").textContent=["auth/invalid-credential","auth/wrong-password","auth/invalid-login-credentials","auth/user-not-found"].includes(e.code)?"Құпия код қате!":"Қате: "+(e.code||e.message)}};$("go").onclick=go;$("pw").onkeydown=e=>e.key==="Enter"&&go();$("pw").focus()}
+function teacher(){clear();app.className="wide";
+const S={cur:null,sess:null,studs:{},ans:{},qs:{},key:{},sort:"score",open:null,res:false};let unsubSid=null;
+const render=()=>{
+ const sid=S.cur,st=S.sess&&S.sess.status;
+ const rows=Object.entries(S.studs).map(([u,s])=>{const A=S.ans[u]||{},B=S.qs[u]||{};let c=0,w=0,t=0,n=0;const cat={};
+  for(let i=1;i<=10;i++){const a=A["q"+i];if(!a)continue;n++;const k=Q[i-1].c;cat[k]=cat[k]||{ok:0,t:0};cat[k].t++;if(a.choice<0)t++;else if(a.choice===S.key["q"+i]){c++;cat[k].ok++}else w++}
+  const qn=Math.min(n+1,10),sT=B["q"+qn],rem=n<10&&sT?Math.max(0,60-(now()-sT)/1000):null;
+  const status=n>=10?"Аяқтады":B.q1?"Орындап жатыр":"Күтуде";return{u,name:s.name,n,c,w,t,score:c,cat,qn,rem,status,A}});
+ rows.sort((a,b)=>S.sort==="name"?a.name.localeCompare(b.name):b.score-a.score);
+ const fin=rows.filter(r=>r.status==="Аяқтады"),run=rows.filter(r=>r.status==="Орындап жатыр"),started=rows.filter(r=>r.n>0||r.status!=="Күтуде");
+ const avg=rows.length?(rows.reduce((s,r)=>s+r.score,0)/rows.length):0,top=rows.length?rows.reduce((a,b)=>b.score>a.score?b:a):null;
+ let h=`<div class="top"><div><p class="tag">Мұғалім панелі</p><h2>Sin, cos, tg, ctg — нақты уақыт</h2></div><button class="btn sec" id="out">Шығу</button></div>
+ <div class="btns"><button class="btn sec" id="nw">Жаңа сессия</button><button class="btn" id="st" ${st==="lobby"?"":"disabled"}>Ойынды бастау</button><button class="btn dng" id="en" ${st==="running"?"":"disabled"}>Ойынды аяқтау</button><button class="btn sec" id="rs" ${sid?"":"disabled"}>Нәтижелерді көру</button><button class="btn sec" id="csv" ${rows.length?"":"disabled"}>CSV жүктеу</button></div>
+ <p class="sub">Сессия: ${sid?esc(sid):"жоқ"} · Күйі: <b>${{lobby:"Күту (оқушылар қосылуда)",running:"Ойын жүріп жатыр",finished:"Аяқталды"}[st]||"—"}</b></p>
+ <div class="stats"><div class="stat"><b>${rows.length}</b><span>Кірген</span></div><div class="stat"><b>${started.length}</b><span>Бастаған</span></div><div class="stat"><b>${fin.length}</b><span>Аяқтаған</span></div><div class="stat"><b>${run.length}</b><span>Орындап жатыр</span></div><div class="stat"><b>${avg.toFixed(1)}</b><span>Орташа балл /10</span></div><div class="stat"><b>${Math.round(avg*10)}%</b><span>Сынып нәтижесі</span></div></div>`;
+ if(S.res||st==="finished")h+=`<div class="card"><h2>Қорытынды статистика</h2><p>Ең жоғары балл: <b>${top?esc(top.name)+" — "+top.score+"/10":"—"}</b> · Сыныптың орташа балы: <b>${avg.toFixed(2)}</b> · Қатысушы: ${rows.length}, аяқтаған: ${fin.length}</p>${Object.keys(CATS).map(k=>{let ok=0,t=0;rows.forEach(r=>{const x=r.cat[k];if(x){ok+=x.ok;t+=x.t}});const p=t?Math.round(ok/t*100):0;return`<div class="cat ${t&&p<50?"low":""}"><span>${CATS[k]}</span><b>${t?p+"%":"—"}</b></div>`}).join("")}</div>`;
+ h+=`<table><thead><tr><th>№</th><th id="sN">Оқушының аты-жөні</th><th>Статус</th><th>Қазіргі сұрақ</th><th id="sS">Балл</th><th>Дұрыс</th><th>Қате</th></tr></thead><tbody>${rows.map((r,i)=>`<tr class="row" data-u="${r.u}"><td data-l="№">${i+1}</td><td data-l="Аты-жөні"><b>${esc(r.name)}</b></td><td data-l="Статус">${r.status}</td><td data-l="Қазіргі сұрақ">${r.status==="Аяқтады"?"10/10":r.status==="Күтуде"?"—":r.qn+"/10 · "+(r.rem==null?"":Math.ceil(r.rem)+" с")}</td><td data-l="Балл">${r.score}</td><td data-l="Дұрыс">${r.c}</td><td data-l="Қате">${r.w+r.t}${r.t?` (уақыт: ${r.t})`:""}</td></tr>`).join("")||`<tr><td colspan="7">Әлі оқушы жоқ</td></tr>`}</tbody></table>`;
+ if(S.open){const r=rows.find(x=>x.u===S.open);if(r)h+=`<div class="card"><div class="top"><h2>${esc(r.name)} — ${r.score}/10</h2><button class="btn sec" id="cl">Жабу</button></div><p>Дұрыс: ${r.c} · Қате: ${r.w} · Уақыты біткен: ${r.t} · Жауапсыз: ${10-r.n}</p><h2>Тақырыптық талдау</h2>${Object.keys(CATS).map(k=>{const x=r.cat[k]||{ok:0,t:0},p=x.t?Math.round(x.ok/x.t*100):null;return`<div class="cat ${p!==null&&p<50?"low":""}"><span>${CATS[k]}: ${x.ok}/${x.t}</span><b>${p===null?"—":p+"%"}${p!==null&&p<50?" · қайталау керек":p===100?" · жақсы":""}</b></div>`}).join("")}<h2>Сұрақтар бойынша</h2>${Q.map((q,i)=>{const a=r.A["q"+(i+1)],k=S.key["q"+(i+1)],ok=a&&a.choice===k;return`<div class="qi ${ok?"":"bad"}"><b>${i+1}.</b> ${q.q}<br>${a?(a.choice<0?`<span class="pill">Уақыт бітті — 0 балл</span>`:`Таңдауы: ${q.opts[a.choice]}`):`<span class="pill">Жауап берілмеген</span>`}<br>Дұрыс жауап: ${q.opts[k]}<br>${ok?"":`<small>Неліктен қате: ${q.why}</small>`}</div>`}).join("")}<div class="btns"><button class="btn dng" id="rm">Тіркеуді өшіру (қайта қосылуға рұқсат)</button></div></div>`}
+ const keep=document.activeElement&&document.activeElement.id;app.innerHTML=h;
+ $("out").onclick=async()=>{await signOut(auth);home()};
+ $("nw").onclick=async()=>{const id="s"+Date.now();await set(ref(db,"sessions/"+id),{status:"lobby",createdAt:serverTimestamp()});await set(ref(db,"currentSession"),id)};
+ $("st").onclick=()=>update(ref(db,"sessions/"+sid),{status:"running",startedAt:serverTimestamp()});
+ $("en").onclick=async()=>{if(!confirm("Ойынды аяқтайсыз ба?"))return;await update(ref(db,"sessions/"+sid),{status:"finished",endedAt:serverTimestamp()});for(const r of rows){await set(ref(db,`results/${sid}/${r.u}`),{name:r.name,score:r.score,correct:r.c,wrong:r.w,timeout:r.t,answered:r.n});await set(ref(db,`analytics/${sid}/${r.u}`),r.cat)}};
+ $("rs").onclick=()=>{S.res=true;render()};
+ $("csv").onclick=()=>{const L=[["№","Аты-жөні","Статус","Балл","Дұрыс","Қате","Уақыты біткен",...Object.keys(CATS).map(k=>k+" %")]];rows.forEach((r,i)=>L.push([i+1,r.name,r.status,r.score,r.c,r.w,r.t,...Object.keys(CATS).map(k=>r.cat[k]?Math.round(r.cat[k].ok/r.cat[k].t*100):"")]));const b=new Blob(["\ufeff"+L.map(l=>l.map(x=>`"${String(x).replace(/"/g,'""')}"`).join(";")).join("\n")],{type:"text/csv"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="sincos_nátijeler.csv";a.click()};
+ $("sN").onclick=()=>{S.sort="name";render()};$("sS").onclick=()=>{S.sort="score";render()};
+ document.querySelectorAll("tr.row").forEach(tr=>tr.onclick=()=>{S.open=tr.dataset.u;render()});
+ if($("cl"))$("cl").onclick=()=>{S.open=null;render()};
+ if($("rm"))$("rm").onclick=async()=>{if(!confirm("Оқушының барлық деректері өшіріледі. Жалғастыру?"))return;const u=S.open,nm=S.studs[u].name;S.open=null;await remove(ref(db,`answers/${sid}/${u}`));await remove(ref(db,`qStart/${sid}/${u}`));await remove(ref(db,`students/${sid}/${u}`));await remove(ref(db,`names/${sid}/${nk(nm)}`))}};
+setTick(()=>{if(S.cur&&S.sess&&S.sess.status==="running")render()});
+listen("answerKey",k=>{S.key=k||{};render()});
+listen("currentSession",id=>{S.cur=id;unsubSid&&unsubSid();S.studs={};S.ans={};S.qs={};S.sess=null;if(!id){render();return}
+ const subs=[["sessions/"+id,x=>S.sess=x],["students/"+id,x=>S.studs=x||{}],["answers/"+id,x=>S.ans=x||{}],["qStart/"+id,x=>S.qs=x||{}]].map(([p,f])=>onValue(ref(db,p),s=>{f(s.val());render()},fail));unsubSid=()=>subs.forEach(f=>f())});
+render()}
+const nk=n=>n.toLowerCase().replace(/\s+/g,"_").replace(/[^a-zа-яәіңғүұқөһё0-9_]/gi,"")||"x";
+/* ---------- Оқушы ---------- */
+async function student(){clear();app.className="";app.innerHTML="<p>Қосылуда…</p>";
+ try{const u=auth.currentUser&&auth.currentUser.isAnonymous?auth.currentUser:(await signInAnonymously(auth)).user;run(u.uid)}catch(e){fail(e);app.insertAdjacentHTML("beforeend",`<button class="btn sec" id="bk">Артқа</button>`);$("bk").onclick=home}}
+function run(uid){const S={sid:null,sess:null,me:null,ans:{},qs:{},key:{}},busy={};let fbIdx=null,view="";
+ const save=()=>localStorage.getItem("sc_name")||"";
+ const head=()=>`<div class="top"><b>👨‍🎓 ${esc(S.me?S.me.name:"")}</b><span id="tmw"></span></div>`;
+ const loadKey=i=>{if(S.key["q"+i]!==undefined||busy["k"+i])return;busy["k"+i]=1;get(ref(db,"answerKey/q"+i)).then(s=>{S.key["q"+i]=s.val();busy["k"+i]=0;render()}).catch(()=>busy["k"+i]=0)};
+ const render=()=>{
+  if(!S.sid){app.innerHTML=`<div class="card center"><h2>Күтіңіз…</h2><p>Мұғалім сессияны ашқанша күтіңіз.</p></div>`;return}
+  if(!S.me){const p=(save()||" ").split(" ");app.innerHTML=`<div class="card"><h2>Ойынға қосылу</h2><input id="fn" placeholder="Аты" value="${esc(p[0]||"")}"><input id="ln" placeholder="Тегі" value="${esc(p.slice(1).join(" "))}"><p class="err" id="e"></p><button class="btn" id="jn">Ойынға қосылу</button></div>`;$("jn").onclick=join;return}
+  const st=S.sess&&S.sess.status;
+  if(st==="lobby"){app.innerHTML=head()+`<div class="card center"><h2>Сәлем, ${esc(S.me.name)}!</h2><p>Мұғалім ойынды бастағанын күтіңіз…</p></div>`;return}
+  let n=0;while(n<10&&S.ans["q"+(n+1)])n++;
+  if((n>=10&&fbIdx===null)||(st==="finished"&&fbIdx===null)){result(n);return}
+  const i=fbIdx!==null?fbIdx:n+1;
+  if(!S.qs["q"+i]){if(!busy["s"+i]){busy["s"+i]=1;set(ref(db,`qStart/${S.sid}/${uid}/q${i}`),serverTimestamp()).catch(e=>{busy["s"+i]=0;fail(e)})}app.innerHTML=head()+`<p>Сұрақ ашылуда…</p>`;return}
+  const a=S.ans["q"+i],qd=Q[i-1],order=perm(uid,i),k=S.key["q"+i];if(a)loadKey(i);
+  const good=a&&k!==undefined&&a.choice===k;
+  app.innerHTML=head()+`<div class="pips">${Q.map((_,j)=>{const x=S.ans["q"+(j+1)],c=x?(S.key["q"+(j+1)]===undefined?"now":x.choice===S.key["q"+(j+1)]?"ok":"bad"):j+1===i?"now":"";return`<span class="pip ${c}"></span>`}).join("")}<span class="count">${i} / 10</span></div>
+  <section class="card"><div class="fig">${FIG}</div><p class="q">${qd.q}</p><div class="opts">${order.map((o,p)=>`<button class="opt ${a?(o===a.choice?(k===undefined?"":good?"ok":"bad"):o===k?"ok":"dim"):""}" ${a?"disabled":""} data-o="${o}"><span class="mk">${MARK[p]}</span><span>${qd.opts[o]}</span></button>`).join("")}</div>
+  ${a&&k!==undefined?`<div class="fb ${good?"ok":"bad"}"><span class="head">${a.choice<0?"Уақыт бітті — 0 балл. Дұрыс жауабы:":good?"Дұрыс!":"Қате. Дұрыс жауабы:"}</span>${good?"":`<b>${qd.opts[k]}</b>`}<span>${qd.why}</span></div>`:""}
+  ${a?`<button class="btn right" id="nx">${i===10?"Нәтижені көру":"Келесі сұрақ"}</button>`:""}</section>`;
+  document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>answer(i,+b.dataset.o));
+  if($("nx"))$("nx").onclick=()=>{fbIdx=null;render()};
+  fbIdx=a?i:null;
+  if(!a)fbIdx=null};
+ const answer=(i,choice)=>{if(S.ans["q"+i]||busy["a"+i])return;busy["a"+i]=1;fbIdx=i;set(ref(db,`answers/${S.sid}/${uid}/q${i}`),{choice,at:serverTimestamp()}).catch(e=>{busy["a"+i]=0;fbIdx=null;fail(e)})};
+ const tm=()=>{if(!S.sess||S.sess.status!=="running"||!S.me)return;let n=0;while(n<10&&S.ans["q"+(n+1)])n++;if(n>=10)return;const i=n+1,t=S.qs["q"+i];if(!t)return;const rem=60-(now()-t)/1000,el=$("tmw");if(el){el.className="timer"+(rem<=10?" low":"");el.textContent="⏱ "+Math.max(0,Math.ceil(rem))+" с"}if(rem<-0.3&&!busy["a"+i]){busy["a"+i]=1;fbIdx=i;set(ref(db,`answers/${S.sid}/${uid}/q${i}`),{choice:-1,at:serverTimestamp()}).catch(e=>{busy["a"+i]=0;setTimeout(()=>busy["a"+i]=0,1500)})}};
+ const result=n=>{for(let i=1;i<=n;i++)loadKey(i);let c=0,w=0,t=0;const cat={};
+  const rows=Q.map((q,j)=>{const a=S.ans["q"+(j+1)],k=S.key["q"+(j+1)];const ok=a&&a.choice>=0&&a.choice===k;cat[q.c]=cat[q.c]||{ok:0,t:0};if(a){cat[q.c].t++;if(ok){c++;cat[q.c].ok++}else if(a.choice<0)t++;else w++}return{q,a,k,ok}});
+  app.innerHTML=head()+`<section class="card center"><p class="tag">Нәтиже</p><div class="score">${c}<small> / 10</small></div><p>Дұрыс: ${c} · Қате: ${w} · Уақыты біткен: ${t} · Жауапсыз: ${10-n}</p><div class="rev">${rows.map((r,j)=>`<span class="${!r.a?"na":r.ok?"ok":"bad"}">${j+1}</span>`).join("")}</div></section><div class="card"><h2>Қателерді талдау</h2>${rows.map((r,j)=>`<div class="fb ${r.ok?"ok":"bad"}"><b>${j+1}. ${r.q.q}</b><span>Таңдауың: ${!r.a?"жауап берілмеген":r.a.choice<0?"уақыт бітті (0 балл)":r.q.opts[r.a.choice]}</span>${r.k===undefined?"":`<span>Дұрыс жауап: <b>${r.q.opts[r.k]}</b></span>`}${r.ok?"":`<span>Неліктен қате: ${r.q.why}</span>`}</div>`).join("")}</div>`};
+ const join=async()=>{const f=$("fn").value.trim(),l=$("ln").value.trim();if(!f||!l){$("e").textContent="Аты мен тегін енгізіңіз";return}
+  const name=f+" "+l;$("jn").disabled=true;try{const kr=ref(db,`names/${S.sid}/${nk(name)}`),ex=(await get(kr)).val();if(ex&&ex!==uid){$("e").textContent="Бұл аты-жөні тіркелген. Мұғалімге хабарласыңыз.";$("jn").disabled=false;return}
+   if(!ex)await set(kr,uid);await set(ref(db,`students/${S.sid}/${uid}`),{name,joinedAt:serverTimestamp()});localStorage.setItem("sc_name",name)}catch(e){fail(e);$("jn").disabled=false}};
+ listen("currentSession",id=>{S.sid=id;S.me=null;S.sess=null;S.ans={};S.qs={};S.key={};fbIdx=null;
+  if(!id){render();return}
+  [["sessions/"+id,x=>S.sess=x],[`students/${id}/${uid}`,x=>S.me=x],[`answers/${id}/${uid}`,x=>S.ans=x||{}],[`qStart/${id}/${uid}`,x=>S.qs=x||{}]].forEach(([p,f])=>unsubs.push(onValue(ref(db,p),s=>{f(s.val());render()},fail)))});
+ setTick(tm);render()}
+home();
+</script></body></html>
